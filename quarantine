@@ -1,0 +1,52 @@
+from bs4 import BeautifulSoup
+from requests import get
+from openpyxl import Workbook
+
+import pandas as pd
+import itertools
+import matplotlib.pyplot as plt
+import seaborn as sns
+import xlwt
+import time
+
+sns.set()
+headers = ({'User-Agent': 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36'})
+reem = "https://uae.dubizzle.com/en/property-for-sale/residential/?filters=%28neighborhoods.ids%3D57333%29&page="
+
+pn = 0
+for pn in range(0,10,1):
+    reem = "https://uae.dubizzle.com/en/property-for-sale/residential/?filters=%28neighborhoods.ids%3D57333%29&page="
+    nextPage = reem + str(pn)
+    response = get(str(nextPage), headers=headers)
+    pn = pn + 1
+    house_price = BeautifulSoup(response.text, "html.parser").find_all('div', class_="price")
+    #house_bedroom = BeautifulSoup(response.text, "html.parser").find_all('span', class_="float-left")
+    print("Page number" +str(pn))
+    time.sleep(0.35)
+    while True:
+        for prices in house_price:
+            if "AED" in prices.text:
+                condos = str(prices.text)
+                time.sleep(0.25)
+
+
+
+
+
+
+
+#wb = Workbook()
+#filepath = r"\Users\Loay\Desktop\WebScrape\DWS2.xlsx"
+#ws = wb.active
+#ws.title = "Analysis"
+#sheet_1 = wb.create_sheet('Sheet 1')
+
+
+
+
+
+
+
+
+
+
